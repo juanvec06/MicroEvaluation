@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.unicauca.microevaluacion.FacadeServicesLayer.DTOs.input.AgregarObservacionDTO;
-import co.edu.unicauca.microevaluacion.FacadeServicesLayer.DTOs.input.CambiarEstadoDTO;
 import co.edu.unicauca.microevaluacion.FacadeServicesLayer.DTOs.output.EstadoFormatoResponseDTO;
 import co.edu.unicauca.microevaluacion.FacadeServicesLayer.DTOs.output.EvaluacionFormatoResponseDTO;
 import co.edu.unicauca.microevaluacion.FacadeServicesLayer.facades.EvaluacionFormatoFacade;
@@ -23,10 +22,8 @@ public class EvaluacionFormatoController {
         this.facade = facade;
     }
     @PutMapping("/iniciar")
-    public ResponseEntity<EstadoFormatoResponseDTO> startEvaluacionFormato(
-            @RequestParam String id,
-            @RequestBody CambiarEstadoDTO entity) {
-        EstadoFormatoResponseDTO response = facade.startEvaluacionFormato(id, entity);
+    public ResponseEntity<EstadoFormatoResponseDTO> startEvaluacionFormato(@RequestParam String id) {
+        EstadoFormatoResponseDTO response = facade.startEvaluacionFormato(id);
         return ResponseEntity.status(200).body(response);
     }
     @PutMapping("/terminar")

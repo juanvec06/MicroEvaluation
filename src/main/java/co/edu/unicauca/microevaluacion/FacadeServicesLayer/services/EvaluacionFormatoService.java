@@ -6,7 +6,6 @@ import co.edu.unicauca.microevaluacion.AccessDataLayer.models.EvaluacionFormato;
 import co.edu.unicauca.microevaluacion.AccessDataLayer.repositories.EvaluacionFormatoRepository;
 import co.edu.unicauca.microevaluacion.AccessDataLayer.repositories.ObservacionRepository;
 import co.edu.unicauca.microevaluacion.FacadeServicesLayer.DTOs.input.AgregarObservacionDTO;
-import co.edu.unicauca.microevaluacion.FacadeServicesLayer.DTOs.input.CambiarEstadoDTO;
 import co.edu.unicauca.microevaluacion.FacadeServicesLayer.DTOs.output.EstadoFormatoResponseDTO;
 import co.edu.unicauca.microevaluacion.FacadeServicesLayer.DTOs.output.EvaluacionFormatoResponseDTO;
 import co.edu.unicauca.microevaluacion.FacadeServicesLayer.mapper.EvaluacionFormatoMapper;
@@ -30,8 +29,8 @@ public class EvaluacionFormatoService {
 		this.mapper = mapper;
 	}
 
-	public EstadoFormatoResponseDTO iniciarEvaluacion(String idPath, CambiarEstadoDTO dto) {
-		Long formatoId = resolverFormatoId(idPath, dto == null ? null : dto.getIdFormato());
+	public EstadoFormatoResponseDTO iniciarEvaluacion(String idPath) {
+		Long formatoId = resolverFormatoId(idPath);
 		validarExistencia(formatoId);
 		return EstadoFormatoResponseDTO.builder()
 				.idFormato(formatoId)
@@ -40,7 +39,7 @@ public class EvaluacionFormatoService {
 	}
 
 	public EvaluacionFormatoResponseDTO terminarEvaluacion(String idPath, AgregarObservacionDTO dto) {
-		Long formatoId = resolverFormatoId(idPath, dto == null ? null : dto.getIdFormato());
+		Long formatoId = resolverFormatoId(idPath);
 		validarExistencia(formatoId);
 
 		if (dto != null && dto.getObservacion() != null && !dto.getObservacion().isBlank()) {
@@ -54,8 +53,8 @@ public class EvaluacionFormatoService {
 		return mapper.toResponse(formato, ultimaObservacion);
 	}
 
-	public EstadoFormatoResponseDTO aprobarFormato(String idPath, CambiarEstadoDTO dto) {
-		Long formatoId = resolverFormatoId(idPath, dto == null ? null : dto.getIdFormato());
+	public EstadoFormatoResponseDTO aprobarFormato(String idPath) {
+		Long formatoId = resolverFormatoId(idPath);
 		validarExistencia(formatoId);
 		return EstadoFormatoResponseDTO.builder()
 				.idFormato(formatoId)
@@ -63,8 +62,8 @@ public class EvaluacionFormatoService {
 				.build();
 	}
 
-	public EstadoFormatoResponseDTO denegarFormato(String idPath, CambiarEstadoDTO dto) {
-		Long formatoId = resolverFormatoId(idPath, dto == null ? null : dto.getIdFormato());
+	public EstadoFormatoResponseDTO denegarFormato(String idPath) {
+		Long formatoId = resolverFormatoId(idPath);
 		validarExistencia(formatoId);
 		return EstadoFormatoResponseDTO.builder()
 				.idFormato(formatoId)
@@ -78,12 +77,9 @@ public class EvaluacionFormatoService {
 		}
 	}
 
-	private Long resolverFormatoId(String idPath, Long idDto) {
-		if (idDto != null) {
-			return idDto;
-		}
+	private Long resolverFormatoId(String idPath) {
 		if (idPath == null || idPath.isBlank()) {
-			throw new IllegalArgumentException("Debe enviar id del formato en path o en el DTO");
+			throw new IllegalArgumentException("Debe enviar id del formato en el request param");
 		}
 		return Long.valueOf(idPath);
 	}

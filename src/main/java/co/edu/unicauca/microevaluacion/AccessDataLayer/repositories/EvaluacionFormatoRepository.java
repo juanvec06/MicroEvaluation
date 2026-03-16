@@ -42,6 +42,28 @@ public class EvaluacionFormatoRepository {
 				id);
 	}
 
+	public void guardarDesdeCola(EvaluacionFormato formato) {
+		if (formato.getId() != null) {
+			jdbcTemplate.update(
+					"MERGE INTO evaluacion_formatos (id, titulo, objetivo_general, estado, fecha_creacion, fecha_actualizacion) KEY(id) VALUES (?, ?, ?, ?, ?, ?)",
+					formato.getId(),
+					formato.getTitulo(),
+					formato.getObjetivoGeneral(),
+					formato.getEstado().name(),
+					Timestamp.valueOf(formato.getFechaCreacion() == null ? LocalDateTime.now() : formato.getFechaCreacion()),
+					Timestamp.valueOf(LocalDateTime.now()));
+			return;
+		}
+
+		jdbcTemplate.update(
+				"INSERT INTO evaluacion_formatos (titulo, objetivo_general, estado, fecha_creacion, fecha_actualizacion) VALUES (?, ?, ?, ?, ?)",
+				formato.getTitulo(),
+				formato.getObjetivoGeneral(),
+				formato.getEstado().name(),
+				Timestamp.valueOf(formato.getFechaCreacion() == null ? LocalDateTime.now() : formato.getFechaCreacion()),
+				Timestamp.valueOf(LocalDateTime.now()));
+	}
+
 	private EvaluacionFormato mapRow(ResultSet rs) throws SQLException {
 		return EvaluacionFormato.builder()
 				.id(rs.getLong("id"))

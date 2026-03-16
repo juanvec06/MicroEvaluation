@@ -3,7 +3,6 @@ package co.edu.unicauca.microevaluacion.FacadeServicesLayer.facades;
 import org.springframework.stereotype.Service;
 
 import co.edu.unicauca.microevaluacion.FacadeServicesLayer.DTOs.input.AgregarObservacionDTO;
-import co.edu.unicauca.microevaluacion.FacadeServicesLayer.DTOs.input.CambiarEstadoDTO;
 import co.edu.unicauca.microevaluacion.FacadeServicesLayer.DTOs.output.EstadoFormatoResponseDTO;
 import co.edu.unicauca.microevaluacion.FacadeServicesLayer.DTOs.output.EvaluacionFormatoResponseDTO;
 import co.edu.unicauca.microevaluacion.FacadeServicesLayer.services.EvaluacionFormatoService;
@@ -16,20 +15,20 @@ public class EvaluacionFormatoFacade {
 		this.evaluacionFormatoService = evaluacionFormatoService;
 	}
 
-	public EstadoFormatoResponseDTO startEvaluacionFormato(String id, CambiarEstadoDTO entity) {
-		return evaluacionFormatoService.iniciarEvaluacion(id, entity);
+	public EstadoFormatoResponseDTO startEvaluacionFormato(String id) {
+		return evaluacionFormatoService.iniciarEvaluacion(id);
 	}
 
 	public EvaluacionFormatoResponseDTO terminateEvaluacionFormato(String id, AgregarObservacionDTO entity) {
 		return evaluacionFormatoService.terminarEvaluacion(id, entity);
 	}
 
-	public EstadoFormatoResponseDTO approveFormato(String id, CambiarEstadoDTO entity) {
-		return evaluacionFormatoService.aprobarFormato(id, entity);
+	public EstadoFormatoResponseDTO approveFormato(String id) {
+		return evaluacionFormatoService.aprobarFormato(id);
 	}
 
-	public EstadoFormatoResponseDTO denyFormato(String id, CambiarEstadoDTO entity) {
-		return evaluacionFormatoService.denegarFormato(id, entity);
+	public EstadoFormatoResponseDTO denyFormato(String id) {
+		return evaluacionFormatoService.denegarFormato(id);
 	}
 }
 
